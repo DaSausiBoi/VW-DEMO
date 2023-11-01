@@ -7,12 +7,89 @@
             VW GUI
         </title>
         <link href="style.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
     <body>
         <div class="container">
             <div class="graph">
-                <!-- Real-time graph content goes here -->
+                <canvas id="realTimeChart"></canvas>
+
+                <script>
+                    // Simulated CAN message data (replace with actual data source from RS485 CAN HAT
+                    const canData = [
+                        {timestamp: new Date(), value1: 10, value2: 20, value3: 30},
+                        // Add more data points as they arrive
+                    ];
+
+                    const ctx = document.getElementById('realTimeChart').getContext('2d');
+
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets:[
+                                {
+                                    label: 'Touch Value',
+                                    borderColor: 'red',
+                                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                                    data: [],
+                                },
+                                {
+                                    label: 'Light Touch Threshold',
+                                    borderColor: 'blue',
+                                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                                    data: [], 
+                                },
+                                {
+                                    label: 'Strong Touch Threshold',
+                                    borderColor: 'green',
+                                    backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                                    data: [],
+                                },
+                            ],
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: 'second',
+                                    },
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                },
+                            },
+                        },
+                    });
+
+                    function updateChart() {
+                        // Add new data points from the CAN messages
+                        for (const dataPoint of canData) {
+                            chart.data.datasets[0].data.push({
+                                x: dataPoint.timestamp,
+                                y: dataPoint.value1,
+                            });
+                            chart.data.datasets[1].data.push({
+                                x: dataPoint.timestamp,
+                                y: dataPoint.value2,
+                            });
+                            chart.data.datasets[3].data.push({
+                                x: dataPoint.timestamp,
+                                y: dataPoint.value3,
+                            });
+                        }
+
+                        // Update the chart
+                        chart.update();
+
+                        // Remove the processed data points to avoid excessive memory usage
+                        canData.splice(0, canData.length);
+                    }
+
+                    // Call updateChart() periodically to update the chart with new data
+                    setInterval(updateChart, 1000); // Update every second (adjust as needed)
+                </script>
             </div>
             <div class="steering-wheel">
                 <!-- Steering wheel image goes here -->
