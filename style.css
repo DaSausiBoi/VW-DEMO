@@ -24,7 +24,7 @@ body {
 .steering-wheel{
     width: 100px;
     height: 100px;
-    background-image: url('steering-wheel-image.png'); /*TODO import stw img for HOD*/
+    background-image: url('steering-wheel-state1.png'); /*TODO import stw img for HOD*/
     background-size: cover;
     position: absolute;
     top: 50%;
