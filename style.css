@@ -21,13 +21,13 @@ body {
     position: relative;
 }
 
-.steering-wheel{
+/* .steering-wheel{
     width: 100px;
     height: 100px;
-    background-image: url('steering-wheel-state1.jpg'); /*TODO import stw img for HOD*/
+    background-image: url('steering-wheel-state1.jpg');
     background-size: cover;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
+} */
