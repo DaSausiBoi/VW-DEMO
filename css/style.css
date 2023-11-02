@@ -1,25 +1,25 @@
 body {
     margin :0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #ffff;
     font-family: Arial, sans-serif;
 }
 
-.container {
+/* .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
+} */
 
-.graph {
+/* .graph {
     width: 60%;
     height: 60%;
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     position: relative;
-}
+} */
 
 /* .steering-wheel{
     width: 100px;
