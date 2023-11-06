@@ -45,35 +45,32 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 const ctx = document.getElementById('myChart');
+                const startTime = Date.now();
 
                 const chart1 = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['1', '2', '3', '4', '5', '6'],
                         datasets: [
                             {
                                 label: 'Touch Value',
                                 borderColor: 'red',
                                 backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                                pointBackgroundColor: 'rgba(255, 0, 0, 0.2)',
+                                pointRadius: 0,
                                 yAxisID: 'y-axis',
-                                data: [25, 23, 24, 22, 20, 24],
                             },
                             {
                                 label: 'Light Touch Threshold',
                                 borderColor: 'blue',
                                 backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                                pointBackgroundColor: 'rgba(0, 0, 255, 0.2)',
+                                pointRadius: 0,
                                 yAxisID: 'y-axis',
-                                data: [34, 34, 34, 34, 34, 34],
                             },
                             {
                                 label: 'Strong Touch Threshold',
                                 borderColor: 'green',
                                 backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                                pointBackgroundColor: 'rgba(0, 255, 0, 0.2)',
+                                pointRadius: 0,
                                 yAxisID: 'y-axis',
-                                data: [41, 41, 41, 41, 41, 41],
                             },
                         ],
                     },
@@ -118,12 +115,6 @@
                             x: {
                                 display: true,
                                 text: 'Touch 1',
-                                ticks: {
-                                    // Include the units in the ticks
-                                    callback: function(value, index, ticks) {
-                                        return Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]) + ' sec'
-                                    }
-                                }
                             },
                             'y-axis': {
                                 beginAtZero: true,
@@ -139,25 +130,26 @@
                 });
 
                 // TODO Replace with CAN message updates
-                function addData() {
-                    chart1.data.labels.push('.');
-                    chart1.data.datasets[0].data.push(20 + Math.random() * 5);
+                function updateChart() {
+                    const currentTime = Date.now();
+
+                    chart1.data.labels.push(Math.floor((currentTime - startTime) / 1000) + ' sec');
+                    chart1.data.datasets[0].data.push(24 + Math.random() * 1);
                     chart1.data.datasets[1].data.push('34');
                     chart1.data.datasets[2].data.push('41');
-                    chart1.update('none');
-                }
 
-                // TODO fix shift so that x-axis labels shift numerically and don't reset
-                function removeData() {
-                    chart1.data.labels.shift();
-                    chart1.data.datasets.forEach((dataset) => {
-                        dataset.data.shift();
-                    });
+                    // TODO fix shift so that x-axis labels shift numerically and don't reset
+                    if (chart1.data.labels.length > 21) {
+                        chart1.data.labels.splice(0, 1); //This portion deletes oldest chart entry
+                        chart1.data.datasets.forEach((dataset) => {
+                            dataset.data.splice(0, 1);
+                        })
+                    };
+
                     chart1.update('none');
                 }
                 
-                setInterval(addData, 1000);
-                setInterval(removeData, 1000);
+                setInterval(updateChart, 1000);
             </script>
             <div id="steering-wheel">
                 <script type="text/javascript" src="js/wheel-state.js"></script>
