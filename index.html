@@ -45,7 +45,6 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 const ctx = document.getElementById('myChart');
-                const startTime = Date.now();
 
                 const chart1 = new Chart(ctx, {
                     type: 'line',
@@ -129,14 +128,17 @@
                     }
                 });
 
-                // TODO Replace with CAN message updates
+                const startTime = Date.now();
+                const lightThresh = 34; //TODO update with real values
+                const strongThresh = 41;
+
                 function updateChart() {
                     const currentTime = Date.now();
 
                     chart1.data.labels.push(Math.floor((currentTime - startTime) / 1000) + ' sec');
-                    chart1.data.datasets[0].data.push(24 + Math.random() * 1);
-                    chart1.data.datasets[1].data.push('34');
-                    chart1.data.datasets[2].data.push('41');
+                    chart1.data.datasets[0].data.push(24 + Math.random() * 1); // TODO Replace with CAN message updates
+                    chart1.data.datasets[1].data.push(lightThresh);
+                    chart1.data.datasets[2].data.push(strongThresh);
 
                     // TODO fix shift so that x-axis labels shift numerically and don't reset
                     if (chart1.data.labels.length > 21) {
