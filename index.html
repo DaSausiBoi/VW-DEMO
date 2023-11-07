@@ -9,10 +9,19 @@
         <link href="css/style.css" rel="stylesheet" type="text/css" />
 
         <style>
+            #chart {
+                width: 1050px;
+                height: 750px;
+                position: absolute;
+                bottom: -50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
             #steering-wheel {
                 width: 300px;
                 height: 275px;
-                background-image: url('pics/steering-wheel-state1.png');
+                background-image: url('pics/zone1-stw-notouch.png');
                 background-size: 300px;
                 position: absolute;
                 top: 25%;
@@ -35,124 +44,15 @@
 
     <body>
         <div class="container">
-            <div class="chart">
+            <div id="chart">
                 <canvas id="myChart"></canvas>
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                const ctx = document.getElementById('myChart');
-
-                const chart1 = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: [
-                            {
-                                label: 'Touch Value',
-                                borderColor: 'red',
-                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                                pointRadius: 0,
-                                yAxisID: 'y-axis',
-                            },
-                            {
-                                label: 'Light Touch Threshold',
-                                borderColor: 'blue',
-                                backgroundColor: 'rgba(0, 0, 255, 0.2)',
-                                pointRadius: 0,
-                                yAxisID: 'y-axis',
-                            },
-                            {
-                                label: 'Strong Touch Threshold',
-                                borderColor: 'green',
-                                backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                                pointRadius: 0,
-                                yAxisID: 'y-axis',
-                            },
-                        ],
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'right',
-                                align: 'center',
-                                reverse: true,
-                                color: 'black',
-                                labels: {
-                                    padding: 20,
-                                    boxWidth: 50,
-                                    boxHeight: 40,
-                                    useBorderRadius: false,
-                                    font: {
-                                        size: 17
-                                    }
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: '1 Zone HOD Touch Status',
-                                padding: 20,
-                                color: 'black',
-                                font: {
-                                    size: 34
-                                }
-                            },
-                            subtitle: {
-                                display: true,
-                                text: 'Volkswagon Gen 2 Steering Wheel',
-                                padding: 20,
-                                font: {
-                                    size: 20
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                display: true,
-                                text: 'Touch 1',
-                            },
-                            'y-axis': {
-                                beginAtZero: true,
-                                ticks: {
-                                    // Include the units in the ticks
-                                    callback: function(value, index, ticks) {
-                                        return Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]) + ' ADC'
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-
-                const startTime = Date.now();
-                const lightThresh = 34; //TODO update with real values
-                const strongThresh = 41;
-
-                function updateChart() {
-                    const currentTime = Date.now();
-
-                    chart1.data.labels.push(Math.floor(((currentTime - startTime) / 1000)) - 1 + ' sec');
-                    chart1.data.datasets[0].data.push(24 + Math.random() * 1); // TODO Replace with CAN message updates
-                    chart1.data.datasets[1].data.push(lightThresh);
-                    chart1.data.datasets[2].data.push(strongThresh);
-
-                    //This portion deletes oldest chart entry
-                    if (chart1.data.labels.length > 21) {
-                        chart1.data.labels.splice(0, 1);
-                        chart1.data.datasets.forEach((dataset) => {
-                            dataset.data.splice(0, 1);
-                        })
-                    };
-
-                    chart1.update('none');
-                }
-                
-                setInterval(updateChart, 1000);
-            </script>
+            <script type="text/javascript" src="js/chart.js"></script>
             
             <div id="steering-wheel">
-                <script type="text/javascript" src="js/wheel-state.js"></script>
+                <script type="text/javascript" src="js/vw-wheel-state.js"></script>
             </div>
 
             <div id="ecu">
