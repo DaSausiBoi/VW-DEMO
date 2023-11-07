@@ -49,7 +49,7 @@ const ctx = document.getElementById('myChart');
                             },
                             title: {
                                 display: true,
-                                text: '1 Zone HOD Touch Status',
+                                text: '1 Zone HOD Touch Status', // TODO replace with code that changes text based on wheel attached
                                 padding: 20,
                                 color: 'black',
                                 font: {
@@ -58,7 +58,7 @@ const ctx = document.getElementById('myChart');
                             },
                             subtitle: {
                                 display: true,
-                                text: 'Volkswagon Gen 2 Steering Wheel',
+                                text: 'Volkswagon Gen 2 Steering Wheel', // TODO replace with code that changes text based on wheel attached
                                 padding: 20,
                                 font: {
                                     size: 20
@@ -105,7 +105,7 @@ const ctx = document.getElementById('myChart');
                     const currentTime = Date.now();
 
                     chart1.data.labels.push(Math.floor(((currentTime - startTime))) - 1);
-                    chart1.data.datasets[0].data.push(24 + Math.random() * 1); // TODO Replace with CAN message updates
+                    chart1.data.datasets[0].data.push(24 + Math.random() * 1); // TODO Replace with CAN message updates (message sent every 50ms, take three and average to get sample)
                     chart1.data.datasets[1].data.push(lightThresh);
                     chart1.data.datasets[2].data.push(strongThresh);
 
