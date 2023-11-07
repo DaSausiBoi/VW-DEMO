@@ -8,9 +8,9 @@ function updateSteeringWheelImage(canData) {
             
     // Update the image based on the state
     if (state === 'state1') {
-        steeringWheel.style.backgroundImage = "url('pics/steering-wheel-state1.png')";
+        steeringWheel.style.backgroundImage = "url('pics/zone1-stw-notouch.png')";
     } else if (state === 'state2') {
-        steeringWheel.style.backgroundImage = "url('pics/steering-wheel-state2.png')";
+        steeringWheel.style.backgroundImage = "url('pics/zone1-stw-yestouch.png')";
     }
 }
             
