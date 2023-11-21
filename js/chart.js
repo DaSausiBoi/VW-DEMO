@@ -110,7 +110,7 @@ const ctx = document.getElementById('myChart');
                     chart1.data.datasets[2].data.push(strongThresh);
 
                     //This portion deletes oldest chart entry
-                    if (chart1.data.labels.length > 20) {
+                    if (chart1.data.labels.length > 30) {
                         chart1.data.labels.splice(0, 1);
                         chart1.data.datasets.forEach((dataset) => {
                             dataset.data.splice(0, 1);
