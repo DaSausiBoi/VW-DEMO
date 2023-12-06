@@ -1,5 +1,23 @@
 const ctx = document.getElementById('myChart');
 
+const SerialPort = require('serialport');
+const Readline = require('@serialport/parser-readline');
+
+// Replace 'COMx' with your actual serial port
+const port = new SerialPort('COMx', { baudRate: 9600 });
+const parser = port.pipe(new Readline({ delimiter: '\n' }));
+
+parser.on('data', (data) => {
+    // Process and update GUI with CAN message data
+    updateGUI(data);
+});
+
+// Function to update the GUI
+function updateGUI(data) {
+    // Add your GUI update logic here
+    console.log('Received CAN data:', data);
+}
+
                 const chart1 = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -105,7 +123,7 @@ const ctx = document.getElementById('myChart');
                     const currentTime = Date.now();
 
                     chart1.data.labels.push(Math.floor(((currentTime - startTime))) - 1);
-                    chart1.data.datasets[0].data.push(24 + Math.random() * 1); // TODO Replace with CAN message updates (message sent every 50ms, take three and average to get sample)
+                    chart1.data.datasets[0].data.push(updateGUI(data)); // TODO Replace with CAN message updates (message sent every 50ms, take three and average to get sample)
                     chart1.data.datasets[1].data.push(lightThresh);
                     chart1.data.datasets[2].data.push(strongThresh);
 
